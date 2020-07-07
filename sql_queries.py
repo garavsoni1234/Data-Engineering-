@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS songplays (
 
 user_table_create = ("""
 CREATE TABLE IF NOT EXISTS
-    users(user_id INTEGER PRIMARY KEY, first_name varchar,
-    last_name varchar, gender char, level varchar)""")
+    users(user_id INTEGER PRIMARY KEY, first_name VARCHAR,
+    last_name VARCHAR, gender CHAR, level VARCHAR NOT NULL)""")
 
 song_table_create = ("""
 CREATE TABLE IF NOT EXISTS songs
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS songs
 artist_table_create = ("""
 CREATE TABLE IF NOT EXISTS artists
     (artist_id varchar PRIMARY KEY,
-    name VARCHAR, location VARCHAR, latitude FLOAT,
+    name VARCHAR, location VARCHAR NOT NULL, latitude FLOAT,
     longitude FLOAT)""")
 
 time_table_create = ("""
@@ -47,11 +47,11 @@ CREATE TABLE IF NOT EXISTS time
 # INSERT RECORDS
 
 songplay_table_insert = ("""
-INSERT INTO songplays (songplay_id, start_time, user_id, level,
-    song_id, artist_id, session_id, location, user_agent)
-    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-    ON CONFLICT(songplay_id) DO NOTHING;
-    """)
+    INSERT INTO songplays (songplay_id, start_time, user_id, level, song_id,
+                           artist_id, session_id, location, user_agent)
+    VALUES (DEFAULT, %s, %s, %s, %s, %s, %s, %s, %s);
+""")
+
 
 user_table_insert = ("""
 INSERT INTO users(user_id,
